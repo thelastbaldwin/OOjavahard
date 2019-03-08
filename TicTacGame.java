@@ -15,7 +15,7 @@ public class TicTacGame {
                 System.out.println("\nSorry, you can't go there. Try again.");
                 continue;
             }
-            TicTacPiece XO = new TickTacPiece(r, c);
+            TicTacPiece XO = new TicTacPiece(r, c);
             XO.addSelfToBoard(board);
         } while (!board.isOver());
 
@@ -25,7 +25,7 @@ public class TicTacGame {
             System.out.println("X wins!");
         else if (board.isWinner("O"))
             System.out.println("O wins!");
-        else 
+        else
             System.out.println("It's a tie!");
     }
 }

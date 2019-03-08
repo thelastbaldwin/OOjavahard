@@ -6,7 +6,7 @@ public class TicTacBoard extends GameBoard {
         numTurns = 0;
     }
 
-    @Override 
+    @Override
     public boolean canAdd(int r, int c){
         return super.canAdd(r, c) && g[r][c] == null;
     }
@@ -31,7 +31,7 @@ public class TicTacBoard extends GameBoard {
         return isWinner() || numTurns == 9;
     }
 
-    public static boolean isWinner(String p){
+    public boolean isWinner(String p){
         if (winCheck(p, 0,0, 0,1, 0,2)) return true;
         if (winCheck(p, 1,0, 1,1, 1,2)) return true;
         if (winCheck(p, 2,0, 2,1, 2,2)) return true;
@@ -43,9 +43,9 @@ public class TicTacBoard extends GameBoard {
         return false;
     }
 
-    public static boolean winCheck(String p, int a, int b, 
+    private boolean winCheck(String p, int a, int b,
         int c, int d, int e, int f){
-        if (g[a][b] == null || g[c][d] == null 
+        if (g[a][b] == null || g[c][d] == null
             || g[e][f] == null)
             return false;
         String A = g[a][b].getSymbol();
