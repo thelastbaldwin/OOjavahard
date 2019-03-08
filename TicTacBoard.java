@@ -27,18 +27,20 @@ public class TicTacBoard extends GameBoard {
 
               for(int row = 0; row < 3; row++){
                 for(int col = 0; col < 3; col++){
-                  GamePiece piece = get(row, col);
-                  if (piece == null){
+                  if (canAdd(row, col)){
                     // this will now be the "next" player since the number of turns has
                     // already been incremented
                     String nextPlayer = currentPlayer();
+                    // has to be a GamePiece since instantiating a TicTacPiece would change the 
+                    // symbol for the next player
                     lastMove = new GamePiece(row, col, nextPlayer);
-                    lastMove.addSelfToBoard(this);
+                    add(lastMove, row, col);
+                    // lastMove.addSelfToBoard(this); // same as above
                   }
                 }
               }
-              if(isWinner())
-                tied = true;
+              if(isOver())
+                  tied = true;
               else
                 super.remove(lastMove.getRow(), lastMove.getCol());
             }
