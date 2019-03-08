@@ -1,9 +1,13 @@
+import java.util.ArrayList;
+
 public class TicTacBoard extends GameBoard {
     private int numTurns;
+    protected boolean tied;
 
     public TicTacBoard() {
         super(3, 3);
         numTurns = 0;
+        tied = false;
     }
 
     @Override
@@ -16,6 +20,28 @@ public class TicTacBoard extends GameBoard {
         if(canAdd(r, c)){
             super.add(a, r, c);
             numTurns++;
+
+            if(numTurns == 8){
+              // find the last remaining piece and place a predictive move on it
+              GamePiece lastMove = new GamePiece();
+
+              for(int row = 0; row < 3; row++){
+                for(int col = 0; col < 3; col++){
+                  GamePiece piece = get(row, col);
+                  if (piece == null){
+                    // this will now be the "next" player since the number of turns has
+                    // already been incremented
+                    String nextPlayer = currentPlayer();
+                    lastMove = new GamePiece(row, col, nextPlayer);
+                    lastMove.addSelfToBoard(this);
+                  }
+                }
+              }
+              if(isWinner())
+                tied = true;
+              else
+                super.remove(lastMove.getRow(), lastMove.getCol());
+            }
         }
     }
 
@@ -28,7 +54,7 @@ public class TicTacBoard extends GameBoard {
     }
 
     public boolean isOver(){
-        return isWinner() || numTurns == 9;
+        return isWinner() || numTurns == 9 || tied;
     }
 
     public boolean isWinner(String p){
@@ -43,6 +69,7 @@ public class TicTacBoard extends GameBoard {
         return false;
     }
 
+    // see if three elements in the 2D array have the same values
     private boolean winCheck(String p, int a, int b,
         int c, int d, int e, int f){
         if (g[a][b] == null || g[c][d] == null
